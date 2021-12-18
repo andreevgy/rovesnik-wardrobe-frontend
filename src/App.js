@@ -9,16 +9,17 @@ import ActiveNumber from "./scenes/ActiveNumber";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Logout from "./scenes/Logout";
 import FaqPage from "./scenes/FaqPage";
+import IndexPage from "./scenes/IndexPage";
 
 function App() {
   return (
-      <Auth0Provider
-          domain="dev-q8akwcea.us.auth0.com"
-          clientId="MJDywEXt5zgMe2noOEpcIg6v4r7TYpWA"
-          redirectUri={window.location.origin}
-          audience="rovesnik-wardrobe-api"
-          scope="read:current_code take:number_self"
-      >
+      // <Auth0Provider
+      //     domain="dev-q8akwcea.us.auth0.com"
+      //     clientId="MJDywEXt5zgMe2noOEpcIg6v4r7TYpWA"
+      //     redirectUri={window.location.origin}
+      //     audience="rovesnik-wardrobe-api"
+      //     scope="read:current_code take:number_self"
+      // >
         <Router>
           <Switch>
             <Route path="/activeNumber">
@@ -33,9 +34,12 @@ function App() {
             <Route path="/faq">
               <FaqPage />
             </Route>
+            <Route exact path="/">
+              <IndexPage />
+            </Route>
           </Switch>
         </Router>
-      </Auth0Provider>
+      // </Auth0Provider>
   );
 }
 
