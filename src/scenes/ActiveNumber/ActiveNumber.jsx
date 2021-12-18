@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useRef, useState} from "react";
 import {io} from "socket.io-client";
 import './ActiveNumber.css';
 import {Link, useHistory} from "react-router-dom";
+import Button from "../../components/Button";
 
 const ActiveNumber = () => {
     const {isLoading, isAuthenticated, getAccessTokenSilently} = useAuth0();
@@ -77,7 +78,7 @@ const ActiveNumber = () => {
     if (error) {
         return <div className="loginBody">
             <h1>{error}</h1>
-            <Link to="/" className="loginButton">На главную</Link>
+            <Button link="/">На главную</Button>
         </div>
     }
 
@@ -88,7 +89,7 @@ const ActiveNumber = () => {
             <h2>Код синхронизации:</h2>
             <h2>{data.code}</h2>
             <h2>Код обновится через: {leftSeconds}</h2>
-            <button className="loginButton" onClick={returnNumber}>Вернуть номер</button>
+            <Button onClick={returnNumber}>Вернуть номер</Button>
         </div>
     }
 

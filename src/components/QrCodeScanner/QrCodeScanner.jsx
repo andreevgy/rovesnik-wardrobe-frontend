@@ -1,62 +1,59 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import QrScanner from "qr-scanner";
+import Button from "../Button";
 
 const QrCodeScanner = ({ onScan }) => {
     const videoElem = useRef(null);
     const qrScanner = useRef(null);
+    const [isCurrentlyScanning, setIsCurrentlyScanning] = useState(false);
     const [hasCamera, setHasCamera] = useState(false);
     const [isFlashSupported, setIsFlashSupported] = useState(false);
     const [isFlashOn, setIsFlashOn] = useState(false);
-    const [error, setError] = useState(null);
-
-    const onScannedCode = useCallback((code) => {
-        qrScanner.current.stop();
-        onScan(code);
-    }, [onScan])
 
     useEffect(() => {
         QrScanner.hasCamera().then(hc => {
             setHasCamera(hc);
-            if (hc) {
-                qrScanner.current = new QrScanner(videoElem.current, onScannedCode);
+        });
+    }, [])
+
+    const stopScan = useCallback(() => {
+        if (qrScanner.current) {
+            qrScanner.current.destroy();
+            qrScanner.current = null;
+        }
+        setIsCurrentlyScanning(false);
+    }, []);
+
+    const startScan = useCallback(() => {
+        if (hasCamera) {
+            setIsCurrentlyScanning(true);
+            // Todo костыль
+            setTimeout(() => {
+                qrScanner.current = new QrScanner(videoElem.current, (code) => {
+                    stopScan();
+                    onScan(code);
+                });
                 qrScanner.current.start().then(() => {
                     qrScanner.current.hasFlash().then(r => {
-                        console.log(r);
                         setIsFlashSupported(r);
                         if (r) {
                             setIsFlashOn(qrScanner.current.isFlashOn());
                         }
                     })
                 });
-
-            }
-        });
-        return () => {
-            if (qrScanner.current) {
-                qrScanner.current.destroy();
-                qrScanner.current = null;
-            }
+            }, 0)
         }
-    }, [onScannedCode])
-
-    const restartScan = useCallback(() => {
-        setError(null);
-        qrScanner.current.start();
-    }, [setError]);
+    }, [hasCamera, setIsCurrentlyScanning, setIsFlashSupported, onScan, stopScan]);
 
     if (!hasCamera) {
-        return <h2>
-            Сайт не может получить доступ к камере, отсканируй через удобное тебе приложение!
-        </h2>
+        return <h2>Кажется, у тебя нет камеры, или доступ к ней заблокирован. Можешь отсканировать код встроенной камерой/удобным приложением.</h2>
     }
 
     return <div>
-        {isFlashSupported && <button onClick={() => qrScanner.current.toggleFlash()}>{isFlashOn ? 'Выключить' : 'Включить'} вспышку</button>}
-        <video id="qr-scanner" ref={videoElem} height={200} width={300} />
-        {error && <div>
-            <div>{error}</div>
-            <button onClick={restartScan}>Попробовать еще раз</button>
-        </div>}
+        {!isCurrentlyScanning && <Button onClick={() => startScan()}>Отсканировать код</Button>}
+        {isCurrentlyScanning && <video style={{ objectFit: 'fill' }} id="qr-scanner" ref={videoElem} width="100%" />}
+        {isFlashSupported && <Button onClick={() => qrScanner.current.toggleFlash()}>{isFlashOn ? 'Выключить' : 'Включить'} вспышку</Button>}
+        {isCurrentlyScanning && <Button onClick={() => stopScan()}>Закрыть сканер</Button>}
     </div>
 }
 

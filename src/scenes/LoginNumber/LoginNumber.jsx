@@ -5,6 +5,7 @@ import './LoginNumber.css';
 import useQuery from "../../hooks/useQuery";
 import {Link, useHistory} from "react-router-dom";
 import useToken from "../../hooks/useToken";
+import Button from "../../components/Button";
 
 const LoginNumber = () => {
     const { loginWithRedirect } = useAuth0();
@@ -44,7 +45,7 @@ const LoginNumber = () => {
     if (_.isNil(number)) {
         return <div className="loginBody">
             <h2>Со страницей что-то не так. Кажется, вы зашли на нее, не отсканировав QR-код</h2>
-            <Link to="/" className="loginButton">На главную</Link>
+            <Button to="/">На главную</Button>
         </div>
     }
 
@@ -59,7 +60,7 @@ const LoginNumber = () => {
             case 'USER_HAVE_NUMBER':
                 return <div className="loginBody">
                     <h2>Вы уже взяли номерок</h2>
-                    <Link to="/activeNumber" className="loginButton">Показать его</Link>
+                    <Button link="/activeNumber">Показать его</Button>
                 </div>;
             case 'NUMBER_TAKEN':
                 return <div className="loginBody">
@@ -86,7 +87,7 @@ const LoginNumber = () => {
     if (!isAuthenticated) {
         return <div className="loginBody">
             <h2>Войдите чтобы взять номерок</h2>
-            <button className="loginButton" onClick={() => loginWithRedirect({redirectUri: `${window.location.href}` })}>Войти</button>
+            <Button onClick={() => loginWithRedirect({redirectUri: `${window.location.href}` })}>Войти</Button>
         </div>
     }
     return null;
