@@ -2,8 +2,9 @@ import {useAuth0} from "@auth0/auth0-react";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {io} from "socket.io-client";
 import './ActiveNumber.css';
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import Button from "../../components/Button";
+import {getCurrentNumber, returnNUmber} from "../../api";
 
 const ActiveNumber = () => {
     const {isLoading, isAuthenticated, getAccessTokenSilently} = useAuth0();
@@ -37,21 +38,15 @@ const ActiveNumber = () => {
 
     useEffect(() => {
         if (token) {
-            fetch("http://localhost:7071/getCurrentNumber", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then(res => {
-                if (res.status === 404) {
-                    setError('Вы не закрепили за собой номерок');
-                } else {
-                    socket.current = io('ws://localhost:7071', {
+            getCurrentNumber(token)
+                .then(() => {
+                    socket.current = io(`${process.env.REACT_APP_WS_HOST}`, {
                         auth: {token}
                     });
                     socket.current.connect();
                     socket.current.on("code", (d) => { setData(JSON.parse(d)) });
-                }
-            })
+                })
+                .catch(e => setError(e.message));
         }
         return () => {
             if (socket.current) {
@@ -60,13 +55,8 @@ const ActiveNumber = () => {
         }
     }, [token])
 
-    const returnNumber = useCallback(() => {
-        fetch("http://localhost:7071/returnNumber", {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
+    const returnNumberCB = useCallback(() => {
+        returnNUmber(token)
             .then(() => push('/'))
             .catch(e => { console.log(e) });
     }, [push, token]);
@@ -86,10 +76,10 @@ const ActiveNumber = () => {
         return <div className="loginBody">
             <h3>За вами закреплен номерок</h3>
             <h1>{data.number}</h1>
-            <h2>Код синхронизации:</h2>
+            <h3>Код синхронизации:</h3>
             <h2>{data.code}</h2>
-            <h2>Код обновится через: {leftSeconds}</h2>
-            <Button onClick={returnNumber}>Вернуть номер</Button>
+            <h3>Код обновится через: {leftSeconds}</h3>
+            <Button onClick={returnNumberCB}>Вернуть номерок</Button>
         </div>
     }
 

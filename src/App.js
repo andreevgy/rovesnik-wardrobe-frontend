@@ -7,7 +7,6 @@ import {
 import LoginNumber from "./scenes/LoginNumber";
 import ActiveNumber from "./scenes/ActiveNumber";
 import { Auth0Provider } from "@auth0/auth0-react";
-import Logout from "./scenes/Logout";
 import FaqPage from "./scenes/FaqPage";
 import IndexPage from "./scenes/IndexPage";
 
@@ -27,9 +26,6 @@ function App() {
             </Route>
             <Route path="/loginNumber">
               <LoginNumber />
-            </Route>
-            <Route path="/logout">
-              <Logout />
             </Route>
             <Route path="/faq">
               <FaqPage />
