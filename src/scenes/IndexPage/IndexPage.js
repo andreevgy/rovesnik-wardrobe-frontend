@@ -1,6 +1,5 @@
 import {useCallback, useEffect} from "react";
 import QrCodeScanner from "../../components/QrCodeScanner";
-import "./IndexPage.css";
 import Button from "../../components/Button";
 import LoginButton from "../../components/LoginButton/LoginButton";
 import {Link, useHistory} from "react-router-dom";
@@ -11,7 +10,7 @@ const IndexPage = () => {
     const { isLoading, isAuthenticated, token } = useToken();
     const { push } = useHistory();
     const onScan = useCallback((code) => {
-        if (!code.startsWith('http://localhost:3000/loginNumber')) {
+        if (!code.startsWith(`${process.env.REACT_APP_URL}/loginNumber`)) {
             alert('Некорректный qr-код')
         } else {
             window.location.replace(code);
@@ -29,10 +28,10 @@ const IndexPage = () => {
     }, [isLoading, isAuthenticated, token, push])
 
     if (isLoading) {
-        return <div className="loginBody"><h2>Загрузка...</h2></div>
+        return <div className="pageCentered"><h2>Загрузка...</h2></div>
     }
 
-    return <div className="loginBody2">
+    return <div className="page">
         <h2>Гардероб Ровесника</h2>
         <br />
         <h3>1. Войди в систему (или зарегайся)</h3>

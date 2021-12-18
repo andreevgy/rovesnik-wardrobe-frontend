@@ -1,7 +1,5 @@
-import './FaqPage.css';
-
 const FaqPage = () => {
-    return <div className="loginBody1">
+    return <div className="page">
         <h2>Забронируй номерок в гардеробе Ровесника</h2>
         <br />
         <h2>Как это работает?</h2>

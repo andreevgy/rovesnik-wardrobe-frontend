@@ -7,7 +7,7 @@ const LoginButton = () => {
     const { isLoading, isAuthenticated } = useToken();
 
     if (isLoading) {
-        return <Button onClick={() => {}}>Загрузка</Button>
+        return <Button onClick={() => {}}>Загрузка...</Button>
     }
 
     if (isAuthenticated) {

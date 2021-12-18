@@ -17,3 +17,24 @@ html, body, #root {
   height: 100%;
   background: #5f36f4;
 }
+
+.pageCentered {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1vh;
+  flex-direction: column;
+  text-align: center;
+}
+
+.page {
+  display: flex;
+  padding: 2vh;
+  flex-direction: column;
+  text-align: center;
+}
+
+.link {
+  color: white;
+}

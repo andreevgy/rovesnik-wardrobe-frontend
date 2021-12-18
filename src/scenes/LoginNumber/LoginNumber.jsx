@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import _ from 'lodash';
-import './LoginNumber.css';
 import useQuery from "../../hooks/useQuery";
 import {useHistory} from "react-router-dom";
 import useToken from "../../hooks/useToken";
@@ -29,18 +28,18 @@ const LoginNumber = () => {
     }, [token, isLoading, isAuthenticated, number]);
 
     if (isLoading) {
-        return <div className="loginBody">Загрузка...</div>
+        return <div className="pageCentered"><h2>Загрузка...</h2></div>
     }
 
     if (_.isNil(number)) {
-        return <div className="loginBody">
+        return <div className="pageCentered">
             <h2>Со страницей что-то не так. Кажется, ты зашел на нее, не отсканировав QR-код</h2>
             <Button to="/">На главную</Button>
         </div>
     }
 
     if (isNumberLoading) {
-        return <div className="loginBody">
+        return <div className="pageCentered">
             <h2>Резервируем номерок...</h2>
         </div>
     }
@@ -49,22 +48,22 @@ const LoginNumber = () => {
         // TODO: норм обрабока ошибок
         switch (loadedError.code) {
             case 'USER_HAVE_NUMBER':
-                return <div className="loginBody">
+                return <div className="pageCentered">
                     <h2>Ты уже взял номерок</h2>
                     <Button link="/activeNumber">Показать его</Button>
                 </div>;
             case 'NUMBER_TAKEN':
-                return <div className="loginBody">
+                return <div className="pageCentered">
                     <h2>Этот номер уже взяли</h2>
                     <p>Не пытайся взять чужие номерки...</p>
                 </div>;
             case 'UNAUTHORIZED':
-                return <div className="loginBody">
+                return <div className="pageCentered">
                     <h2>Неправильный токен</h2>
                     <p>Либо ты пытаешься нас взломать, либо что-то пошло не так...</p>
                 </div>
             default:
-                return <div className="loginBody">
+                return <div className="pageCentered">
                     <h2>Ошибка</h2>
                 </div>
         }
@@ -72,11 +71,11 @@ const LoginNumber = () => {
 
     if (loadedData && loadedData.success) {
         setTimeout(() => push('/activeNumber'), 4000);
-        return <div className="loginBody"><h1>Успешно забронили номерок, сейчас вам его покажем...</h1></div>
+        return <div className="pageCentered"><h1>Успешно забронили номерок, сейчас вам его покажем...</h1></div>
     }
 
     if (!isAuthenticated) {
-        return <div className="loginBody">
+        return <div className="pageCentered">
             <h2>Войди чтобы взять номерок</h2>
             <Button onClick={() => loginWithRedirect({redirectUri: `${window.location.href}` })}>Войти</Button>
         </div>

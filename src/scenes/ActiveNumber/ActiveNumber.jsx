@@ -1,7 +1,6 @@
 import {useAuth0} from "@auth0/auth0-react";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {io} from "socket.io-client";
-import './ActiveNumber.css';
 import {useHistory} from "react-router-dom";
 import Button from "../../components/Button";
 import {getCurrentNumber, returnNUmber} from "../../api";
@@ -62,18 +61,25 @@ const ActiveNumber = () => {
     }, [push, token]);
 
     if (isLoading) {
-        return <div className="loginBody"><h2>Загрузка</h2></div>;
+        return <div className="pageCentered"><h2>Загрузка..</h2></div>;
+    }
+
+    if (!isAuthenticated) {
+        return <div className="pageCentered">
+            <h2>Ты не вошел в аккаунт</h2>
+            <Button link="/">На главную</Button>
+        </div>
     }
 
     if (error) {
-        return <div className="loginBody">
+        return <div className="pageCentered">
             <h1>{error}</h1>
             <Button link="/">На главную</Button>
         </div>
     }
 
     if (data) {
-        return <div className="loginBody">
+        return <div className="pageCentered">
             <h3>За вами закреплен номерок</h3>
             <h1>{data.number}</h1>
             <h3>Код синхронизации:</h3>
