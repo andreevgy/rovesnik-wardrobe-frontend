@@ -64,7 +64,7 @@ const ActiveNumber = () => {
         return <div className="pageCentered"><h2>Загрузка..</h2></div>;
     }
 
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
         return <div className="pageCentered">
             <h2>Ты не вошел в аккаунт</h2>
             <Button link="/">На главную</Button>
