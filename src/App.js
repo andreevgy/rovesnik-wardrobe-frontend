@@ -8,6 +8,7 @@ import ActiveNumber from "./scenes/ActiveNumber";
 import { Auth0Provider } from "@auth0/auth0-react";
 import FaqPage from "./scenes/FaqPage";
 import IndexPage from "./scenes/IndexPage";
+import GA from './utils/GoogleAnalytics';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           scope="read:current_code take:number_self"
       >
         <Router>
+          { GA.init() && <GA.RouteTracker /> }
           <Switch>
             <Route path="/activeNumber">
               <ActiveNumber />
