@@ -1,30 +1,39 @@
-// utils/GoogleAnalytics.js
-import React, {useCallback, useEffect} from 'react';
+import React, {Component} from 'react';
 import ReactGA from 'react-ga';
 import {Route} from 'react-router-dom';
 
-const GoogleAnalytics = (props) => {
-    const logPageChange = useCallback((pathname, search = '') => {
+class GoogleAnalytics extends Component {
+    componentDidMount () {
+        this.logPageChange(
+            this.props.location.pathname,
+            this.props.location.search
+        );
+    }
+
+    componentDidUpdate ({ location: prevLocation }) {
+        const { location: { pathname, search } } = this.props;
+        const isDifferentPathname = pathname !== prevLocation.pathname;
+        const isDifferentSearch = search !== prevLocation.search;
+
+        if (isDifferentPathname || isDifferentSearch) {
+            this.logPageChange(pathname, search);
+        }
+    }
+
+    logPageChange (pathname, search = '') {
         const page = pathname + search;
         const { location } = window;
         ReactGA.set({
             page,
             location: `${location.origin}${page}`,
+            ...this.props.options
         });
         ReactGA.pageview(page);
-    }, [])
+    }
 
-
-    useEffect(() => {
-        if (props.location) {
-            logPageChange(
-                props.location.pathname,
-                props.location.search,
-            );
-        }
-    }, [props.location, logPageChange])
-
-    return null;
+    render () {
+        return null;
+    }
 }
 
 const RouteTracker = () => <Route component={GoogleAnalytics} />;
@@ -34,7 +43,6 @@ const init = () => {
 
     if (isGAEnabled && process.env.REACT_APP_GA_TAG) {
         ReactGA.initialize(process.env.REACT_APP_GA_TAG);
-        console.log('Inited GA');
     }
 
     return isGAEnabled;
