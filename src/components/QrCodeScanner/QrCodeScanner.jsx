@@ -51,8 +51,10 @@ const QrCodeScanner = ({ onScan }) => {
 
     return <div>
         {!isCurrentlyScanning && <Button onClick={() => startScan()}>Отсканировать код</Button>}
-        {isCurrentlyScanning && <video style={{ objectFit: 'fill' }} id="qr-scanner" ref={videoElem} width="100%" />}
+        {isCurrentlyScanning && <video id="qr-scanner" ref={videoElem} width="100%"  />}
+        <br />
         {isFlashSupported && <Button onClick={() => qrScanner.current.toggleFlash()}>{isFlashOn ? 'Выключить' : 'Включить'} вспышку</Button>}
+        <br />
         {isCurrentlyScanning && <Button onClick={() => stopScan()}>Закрыть сканер</Button>}
     </div>
 }

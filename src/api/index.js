@@ -21,7 +21,7 @@ export const getCurrentNumber = async (token) => {
         }
     })
     if (res.status === 404) {
-        throw new Error('Вы не закрепили за собой номерок');
+        throw new Error('Ты не закрепил за собой номерок');
     }
 }
 
