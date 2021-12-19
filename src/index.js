@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import QrScanner from "qr-scanner";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import QrScannerWorkerPath from '!!file-loader!../node_modules/qr-scanner/qr-scanner-worker.min.js';
+QrScanner.WORKER_PATH = QrScannerWorkerPath;
 
 ReactDOM.render(
   <React.StrictMode>

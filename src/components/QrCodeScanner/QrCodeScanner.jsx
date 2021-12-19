@@ -32,7 +32,7 @@ const QrCodeScanner = ({ onScan }) => {
                 qrScanner.current = new QrScanner(videoElem.current, (code) => {
                     stopScan();
                     onScan(code);
-                });
+                }, () => {}, (d) => { console.log(d) });
                 qrScanner.current.start().then(() => {
                     qrScanner.current.hasFlash().then(r => {
                         setIsFlashSupported(r);
@@ -51,7 +51,7 @@ const QrCodeScanner = ({ onScan }) => {
 
     return <div>
         {!isCurrentlyScanning && <Button onClick={() => startScan()}>Отсканировать код</Button>}
-        {isCurrentlyScanning && <video id="qr-scanner" ref={videoElem} width="100%"  />}
+        {isCurrentlyScanning && <video id="qr-scanner" ref={videoElem} onPlaying={() => videoElem.current.scrollIntoView({block: "center", behavior: "smooth"})} />}
         <br />
         {isFlashSupported && <Button onClick={() => qrScanner.current.toggleFlash()}>{isFlashOn ? 'Выключить' : 'Включить'} вспышку</Button>}
         <br />
