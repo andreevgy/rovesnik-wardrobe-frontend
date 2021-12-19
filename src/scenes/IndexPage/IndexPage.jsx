@@ -32,6 +32,8 @@ const IndexPage = () => {
     }
 
     return <div className="page">
+        <small>Это лишь шуточный прототип, а не настоящее приложение: <Link to="/faq" className="link">подробнее</Link></small>
+        <br />
         <h2>Гардероб Ровесника</h2>
         <br />
         <h3>1. Войди в систему (или зарегайся)</h3>
@@ -43,8 +45,6 @@ const IndexPage = () => {
         <h3>3. Закрепи номерок за собой на вcю ночь!</h3>
         <br />
         <Button link="/faq">Подробнее</Button>
-        <br />
-        <small>Это лишь шуточный прототип, а не настоящее приложение: <Link to="/faq" className="link">подробнее</Link></small>
     </div>
 }
 
