@@ -11,7 +11,7 @@ const LoginButton = () => {
     }
 
     if (isAuthenticated) {
-        return <><h3>Залогинен как {user.email}</h3><div onClick={logout}>Выйти</div> </>
+        return <><h3>Залогинен как {user.email}</h3><div onClick={() => logout({returnTo: window.location.href})}>Выйти</div> </>
     }
 
     return <Button onClick={() => loginWithRedirect({redirectUri: `${window.location.href}` })}>Войти</Button>

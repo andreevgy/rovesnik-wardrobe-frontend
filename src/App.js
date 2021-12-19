@@ -15,6 +15,7 @@ function App() {
           domain="dev-q8akwcea.us.auth0.com"
           clientId="MJDywEXt5zgMe2noOEpcIg6v4r7TYpWA"
           redirectUri={window.location.origin}
+          cacheLocation="localstorage"
           audience="rovesnik-wardrobe-api"
           scope="read:current_code take:number_self"
       >
