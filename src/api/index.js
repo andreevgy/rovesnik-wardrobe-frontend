@@ -2,7 +2,7 @@
 export const takeNumber = async (number, token) => {
     const res = await fetch(`${process.env.REACT_APP_API_HOST}/takeNumber/${number}`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}`, A },
+        headers: { Authorization: `Bearer ${token}`, },
     });
     // Todo: костыль
     if (res.status === 401) {
