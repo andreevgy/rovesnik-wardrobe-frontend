@@ -71,7 +71,7 @@ const LoginNumber = () => {
 
     if (loadedData && loadedData.success) {
         setTimeout(() => push('/activeNumber'), 4000);
-        return <div className="pageCentered"><h1>Успешно забронили номерок, сейчас вам его покажем...</h1></div>
+        return <div className="pageCentered"><h1>Успешно забронили номерок, сейчас тебе его покажем...</h1></div>
     }
 
     if (!isAuthenticated) {

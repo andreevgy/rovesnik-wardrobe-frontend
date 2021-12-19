@@ -80,7 +80,7 @@ const ActiveNumber = () => {
 
     if (data) {
         return <div className="pageCentered">
-            <h3>За вами закреплен номерок</h3>
+            <h3>За тобой закреплен номерок</h3>
             <h1>{data.number}</h1>
             <h3>Код синхронизации:</h3>
             <h2>{data.code}</h2>
